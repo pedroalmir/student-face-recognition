@@ -1,0 +1,16 @@
+# 1. construir a imagem e subir o serviço
+docker compose up -d --build
+
+# 2. acompanhar logs
+docker compose logs -f face-api
+
+# 3. testar saúde
+curl http://localhost:5000/
+
+# 4. enviar imagem
+curl -X POST --data-binary "@foto.jpg" \
+     -H "Content-Type: image/jpeg" \
+     http://localhost:5000/recognition > resposta.json
+
+# (editar arquivos *.py ou adicionar rostos)
+docker compose restart face-api

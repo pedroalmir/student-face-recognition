@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  face-api:
+    build: .
+    container_name: face-api
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      # monta as fotos dentro do contêiner para recarga fácil
+      - ./students_faces:/app/students_faces:ro
