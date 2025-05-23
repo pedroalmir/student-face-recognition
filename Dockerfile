@@ -11,11 +11,15 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # Bibliotecas compartilhadas exigidas por OpenCV-headless e dlib
 RUN apt-get update && apt-get install -y --no-install-recommends \
       libopenblas-dev liblapack-dev libx11-6 libgl1 \
+      cmake build-essential libboost-all-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copia requirements e instala (usará wheels do PyPI)
 WORKDIR /app
 COPY requirements.txt .
+
+RUN pip install -U pip wheel cmake
+
 RUN pip install --upgrade pip setuptools wheel \
     && pip install -r requirements.txt
 
