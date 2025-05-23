@@ -21,7 +21,7 @@ COPY requirements.txt .
 
 RUN pip install --upgrade pip setuptools wheel
 RUN pip install cmake
-RUN pip install dlib==19.24.2
+RUN pip install dlib
 
 RUN pip install --upgrade pip setuptools wheel \
     && pip install -r requirements.txt
