@@ -1,7 +1,7 @@
 # ──────────────────────────────────────────────────────────────
 # Dockerfile – face-api (usa wheels prontos do dlib)           #
 # ──────────────────────────────────────────────────────────────
-FROM python:3.9
+FROM hdgigante/python-opencv:4.11.0-alpine
 
 # Bibliotecas compartilhadas exigidas por OpenCV-headless e dlib
 RUN apt-get update && \
