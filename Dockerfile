@@ -1,21 +1,25 @@
-# Imagem base com wheels prontos para dlib/numpy
-FROM python:3.10-slim
+# ──────────────────────────────────────────────────────────────
+# Dockerfile – face-api (usa wheels prontos do dlib)           #
+# ──────────────────────────────────────────────────────────────
+FROM python:3.11-slim
 
-ENV PYTHONUNBUFFERED=1 \
-    PIP_NO_CACHE_DIR=1
+# Evita prompts do apt
+ENV DEBIAN_FRONTEND=noninteractive \
+    PIP_NO_CACHE_DIR=1 \
+    PYTHONUNBUFFERED=1
 
-# Dependências nativas mínimas p/ dlib + OpenCV-headless
+# Bibliotecas compartilhadas exigidas por OpenCV-headless e dlib
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        build-essential cmake libopenblas-dev liblapack-dev \
-        libx11-dev libgtk-3-dev \
-    && rm -rf /var/lib/apt/lists/*
+      libopenblas-dev liblapack-dev libx11-6 libgl1 \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Copia requisitos e instala
+# Copia requirements e instala (usará wheels do PyPI)
 WORKDIR /app
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip setuptools wheel \
+    && pip install -r requirements.txt
 
-# Copia código
+# Copia o código da API
 COPY face_api ./face_api
 
 # Porta do Flask
